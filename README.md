@@ -18,7 +18,7 @@
 
 > *"I built a document-grounded QA system. The core design challenge was: how do you retrieve semantically relevant context at query time without scanning the entire corpus? Dense vector retrieval. Ingestion and generation are decoupled, which means I can swap the LLM without touching the embedding pipeline."*
 >
-> — How to describe this project in interviews *(more on that below)*
+
 
 <br/>
 
@@ -43,7 +43,6 @@
 - [API Reference](#-api-reference)
 - [Configuration](#-configuration)
 - [The Engineering Decisions Worth Defending](#-the-engineering-decisions-worth-defending)
-- [How to Talk About This in Interviews](#-how-to-talk-about-this-in-interviews)
 - [Roadmap](#-roadmap)
 - [Known Limitations & Future Work](#-known-limitations--future-work)
 - [Author](#-author)
@@ -497,28 +496,6 @@ Pinecone is a managed SaaS — you pay per vector and you can't self-host. That'
 **"What's the failure mode if Gemini is down?"**
 
 The `/query` endpoint would throw a 500 error. In production, you'd want: retry with exponential backoff, a fallback response ("The LLM service is temporarily unavailable — here are the raw relevant chunks"), and a circuit breaker. These are on the roadmap.
-
----
-
-## 🎤 How to Talk About This in Interviews
-
-Most junior AI portfolios: *"I called the OpenAI API and built a chatbot."* Interviewers have seen that a thousand times. It signals: *can follow a tutorial.*
-
-This project signals something different — if you talk about it right.
-
-**Don't say:** *"It's a RAG system where you upload PDFs and ask questions."*
-
-**Say:** *"I built a document-grounded QA system. The core challenge was: how do you retrieve semantically relevant context at query time without scanning the entire corpus? I solved that with dense vector retrieval — documents are chunked and embedded offline into a vector store, so at query time you're doing a nearest-neighbor search in embedding space, not a string match. The ingestion and generation pipelines are intentionally decoupled, which means I can swap the LLM without touching the embedding pipeline, and scale them independently."*
-
-Notice the structure: **problem → architectural decision → tradeoff → consequence.** That's how senior engineers speak. Practice it until it's natural.
-
-**Questions to be ready for:**
-- Walk me through what happens when a file is uploaded
-- Why did you choose Qdrant over [X]?
-- What would break at 10,000 concurrent uploads?
-- How would you add multi-tenancy (user-specific document isolation)?
-- What would you change about the chunking strategy?
-- How would you evaluate retrieval quality?
 
 ---
 

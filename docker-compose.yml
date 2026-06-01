@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  # Vector database — runs as a separate container
+  qdrant:
+    image: qdrant/qdrant:v1.10.0
+    ports:
+      - "6333:6333"     # REST API
+      - "6334:6334"     # gRPC (not used here but good to expose)
+    volumes:
+      - qdrant_data:/qdrant/storage   # persist vectors across restarts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI application
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env                          # loads your GEMINI_API_KEY etc.
+    environment:
+      - QDRANT_HOST=qdrant            # use service name, not localhost, inside Docker network
+    volumes:
+      - ./uploads:/app/uploads        # persist uploaded files
+    depends_on:
+      qdrant:
+        condition: service_healthy    # don't start until Qdrant is ready
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  qdrant_data:    # named volume — survives container restarts

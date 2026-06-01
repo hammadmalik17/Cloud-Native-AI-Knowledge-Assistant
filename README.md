@@ -1,8 +1,6 @@
 <div align="center">
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:6366f1,100:8b5cf6&height=200&section=header&text=RAG%20Knowledge%20Assistant&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Upload%20documents.%20Ask%20anything.%20Get%20grounded%2C%20citable%20answers.&descAlignY=62&descAlign=50"/>
 
-<br/>
-
-# 🧠 RAG Knowledge Assistant
 
 ### *Upload documents. Ask anything. Get grounded, citable answers — not hallucinations.*
 
@@ -582,3 +580,4 @@ Built with curiosity, caffeine, and a healthy respect for what the data actually
 ⭐ Star it. Fork it. Break it. Rebuild it better.
 
 </div>
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:6366f1,100:8b5cf6&height=100&section=footer"/>
